@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/<your-username>/secure-nodejs-ci.git'
+                git branch: 'main', url: 'https://github.com/Shwetali-Github/secure-nodejs-ci.git'
             }
         }
         stage('Install Dependencies') {
