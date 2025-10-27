@@ -37,17 +37,19 @@ pipeline {
             }
         }
         stage('SonarQube Code Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQubeServer') {
-                    sh '''
-                        sonar-scanner \
-                        -Dsonar.projectKey=secure-nodejs-ci \
-                        -Dsonar.sources=./src \
-                        -Dsonar.login=$SONARQUBE
-                    '''
-                }
-            }
+    steps {
+        script {
+            sh '''
+                docker run --rm \
+                -e SONAR_HOST_URL="http://<your-sonarqube-server>:9000" \
+                -e SONAR_TOKEN=$SONARQUBE \
+                -v "$PWD:/usr/src" \
+                sonarsource/sonar-scanner-cli
+            '''
         }
+    }
+}
+
         stage('Build Docker Image') {
             steps { sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ." }
         }
