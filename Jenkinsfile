@@ -13,6 +13,20 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Shwetali-Github/secure-nodejs-ci.git'
             }
         }
+        stage('Check Tools') {
+    steps {
+        sh '''
+            echo "=== Checking installed tools ==="
+            which node || echo "❌ node not found"
+            which npm || echo "❌ npm not found"
+            which docker || echo "❌ docker not found"
+            which trivy || echo "❌ trivy not found"
+            which sonar-scanner || echo "❌ sonar-scanner not found"
+            echo "================================"
+        '''
+    }
+}
+
         stage('Install Dependencies') {
             steps { sh 'npm install' }
         }
